@@ -1,19 +1,19 @@
 
+import { notFound } from "next/navigation";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import NewsCard from "../../components/NewsCard";
 import { INITIAL_ARTICLES } from "../../lib/data";
 import { CATEGORIES } from "../../lib/types";
-import { notFound } from "next/navigation";
 
-export default function CategoryPage({ params }: { params: { name: string } }) {
-  const categoryName = decodeURIComponent(params.name);
+export default async function CategoryPage({ params }: { params: Promise<{ name: string }> }) {
+  const { name } = await params;
+  const categoryName = decodeURIComponent(name);
   
-  // Basic validation against known categories
+  // Basic validation
   const isValidCategory = CATEGORIES.some(c => c.toLowerCase() === categoryName.toLowerCase());
   
   if (!isValidCategory) {
-    // We allow it if it exists in data even if not in types for flexibility
     const existsInArticles = INITIAL_ARTICLES.some(a => a.category.toLowerCase() === categoryName.toLowerCase());
     if (!existsInArticles) notFound();
   }

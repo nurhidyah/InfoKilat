@@ -43,6 +43,7 @@ export const INITIAL_ARTICLES: Article[] = [
     author: 'Dedi Kusuma',
     publishedAt: '2026-02-28T19:20:00Z',
     imageUrl: 'https://picsum.photos/seed/pol2026/800/600',
+    trending: true,
   },
   {
     id: '5',
@@ -53,5 +54,35 @@ export const INITIAL_ARTICLES: Article[] = [
     author: 'Eka Putri',
     publishedAt: '2026-04-10T11:00:00Z',
     imageUrl: 'https://picsum.photos/seed/ent2026/800/600',
+  },
+  {
+    id: '6',
+    title: 'IKN Jadi Kota 6G Pertama di Dunia: Kecepatan Internet Tembus 1Tbps',
+    excerpt: 'Ibu kota baru Indonesia resmi mengaktifkan jaringan 6G komersial pertama secara global.',
+    body: 'Nusantara (IKN) kembali mencuri perhatian dunia. Hari ini, infrastruktur telekomunikasi IKN resmi beralih ke teknologi 6G. Dengan latensi yang hampir nol, kota ini kini menjadi pusat uji coba mobil otonom tingkat lanjut dan operasi medis jarak jauh yang sangat presisi.',
+    category: 'Teknologi',
+    author: 'Citra Dewi',
+    publishedAt: '2026-07-05T09:00:00Z',
+    imageUrl: 'https://picsum.photos/seed/6gikn/800/600',
+  },
+  {
+    id: '7',
+    title: 'Vaksin Generasi Baru Produksi Dalam Negeri Resmi Diekspor',
+    excerpt: 'Bio Farma mulai mendistribusikan vaksin mRNA buatan Indonesia ke negara-negara Afrika.',
+    body: 'Prestasi gemilang di sektor kesehatan. Vaksin generasi terbaru yang dikembangkan sepenuhnya oleh peneliti lokal kini mulai memenuhi permintaan global. Ini menandai kemandirian farmasi Indonesia di kancah internasional.',
+    category: 'Kesehatan',
+    author: 'Dr. Sarah',
+    publishedAt: '2026-08-12T10:00:00Z',
+    imageUrl: 'https://picsum.photos/seed/health2026/800/600',
+  },
+  {
+    id: '8',
+    title: 'Konferensi Perdamaian Jakarta 2026: Pakta Stabilitas Kawasan Ditandatangani',
+    excerpt: 'Jakarta menjadi saksi sejarah kesepakatan damai antara kekuatan besar di kawasan Asia Pasifik.',
+    body: 'Diplomasi Indonesia membuahkan hasil besar. Melalui Konferensi Perdamaian Jakarta, para pemimpin dunia sepakat untuk menjaga stabilitas jalur perdagangan maritim, memberikan kepastian ekonomi bagi seluruh kawasan.',
+    category: 'Dunia',
+    author: 'Dedi Kusuma',
+    publishedAt: '2026-09-01T15:30:00Z',
+    imageUrl: 'https://picsum.photos/seed/peace2026/800/600',
   }
 ];

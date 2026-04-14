@@ -13,8 +13,9 @@ import SummarizeButton from "./SummarizeButton";
 import ArticleActions from "./ArticleActions";
 import { Toaster } from "@/components/ui/toaster";
 
-export default function ArticlePage({ params }: { params: { id: string } }) {
-  const article = INITIAL_ARTICLES.find((a) => a.id === params.id);
+export default async function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const article = INITIAL_ARTICLES.find((a) => a.id === id);
 
   if (!article) {
     notFound();
