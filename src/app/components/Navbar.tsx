@@ -2,11 +2,18 @@
 "use client";
 
 import Link from "next/link";
-import { Search, Menu, User, Zap } from "lucide-react";
+import { Search, Menu, User, Zap, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 export default function Navbar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -18,8 +25,17 @@ export default function Navbar() {
     if (searchQuery.trim()) {
       router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
       setIsSearchOpen(false);
+      setSearchQuery("");
     }
   };
+
+  const navLinks = [
+    { name: "Politik", href: "/category/Politik" },
+    { name: "Ekonomi", href: "/category/Ekonomi" },
+    { name: "Teknologi", href: "/category/Teknologi" },
+    { name: "Olahraga", href: "/category/Olahraga" },
+    { name: "Hiburan", href: "/category/Hiburan" },
+  ];
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -35,11 +51,15 @@ export default function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center space-x-6 text-sm font-medium">
-            <Link href="/category/Politik" className="hover:text-primary transition-colors">Politik</Link>
-            <Link href="/category/Ekonomi" className="hover:text-primary transition-colors">Ekonomi</Link>
-            <Link href="/category/Teknologi" className="hover:text-primary transition-colors">Teknologi</Link>
-            <Link href="/category/Olahraga" className="hover:text-primary transition-colors">Olahraga</Link>
-            <Link href="/category/Hiburan" className="hover:text-primary transition-colors">Hiburan</Link>
+            {navLinks.map((link) => (
+              <Link 
+                key={link.name} 
+                href={link.href} 
+                className="hover:text-primary transition-colors font-bold"
+              >
+                {link.name}
+              </Link>
+            ))}
           </div>
 
           <div className="flex items-center gap-2">
@@ -54,8 +74,7 @@ export default function Navbar() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
                 <Button type="button" variant="ghost" size="icon" onClick={() => setIsSearchOpen(false)}>
-                  <span className="sr-only">Cancel</span>
-                  &times;
+                  <X className="h-5 w-5" />
                 </Button>
               </form>
             ) : (
@@ -65,14 +84,45 @@ export default function Navbar() {
             )}
             
             <Link href="/admin">
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" title="Admin Panel">
                 <User className="h-5 w-5" />
               </Button>
             </Link>
             
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <Menu className="h-5 w-5" />
-            </Button>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="md:hidden">
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px]">
+                <SheetHeader className="mb-8">
+                  <SheetTitle className="text-left font-black text-2xl tracking-tighter text-primary flex items-center gap-2">
+                    <Zap className="h-6 w-6 fill-current" />
+                    INFOKILAT
+                  </SheetTitle>
+                </SheetHeader>
+                <div className="flex flex-col gap-4">
+                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest px-2">Kategori Utama</p>
+                  {navLinks.map((link) => (
+                    <Link 
+                      key={link.name} 
+                      href={link.href} 
+                      className="text-lg font-bold hover:text-primary px-2 py-2 rounded-lg hover:bg-secondary transition-all"
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
+                  <div className="mt-8 pt-8 border-t">
+                    <Link href="/admin">
+                      <Button className="w-full justify-start gap-3" variant="outline">
+                        <User className="h-4 w-4" /> Masuk Admin
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>

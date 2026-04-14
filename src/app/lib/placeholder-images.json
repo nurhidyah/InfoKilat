@@ -3,39 +3,39 @@
   "placeholderImages": [
     {
       "id": "hero-news",
-      "description": "Modern city skyline 2026",
+      "description": "Pemandangan kota modern Indonesia 2026",
       "imageUrl": "https://picsum.photos/seed/news2026/1200/600",
-      "imageHint": "modern city"
+      "imageHint": "futuristic city"
     },
     {
       "id": "politics",
-      "description": "Smart voting booth 2026",
+      "description": "Sistem voting digital blockchain",
       "imageUrl": "https://picsum.photos/seed/politics2026/800/600",
-      "imageHint": "voting booth"
+      "imageHint": "blockchain voting"
     },
     {
       "id": "sports",
-      "description": "Futuristic soccer stadium",
+      "description": "Stadion sepak bola megah di Amerika",
       "imageUrl": "https://picsum.photos/seed/sports2026/800/600",
-      "imageHint": "soccer stadium"
+      "imageHint": "soccer match"
     },
     {
       "id": "tech",
-      "description": "Quantum computer processor",
+      "description": "Prosesor kuantum canggih",
       "imageUrl": "https://picsum.photos/seed/tech2026/800/600",
-      "imageHint": "quantum computer"
+      "imageHint": "quantum hardware"
     },
     {
       "id": "economy",
-      "description": "Holographic stock market charts",
+      "description": "Grafik pertumbuhan ekonomi emas",
       "imageUrl": "https://picsum.photos/seed/econ2026/800/600",
-      "imageHint": "stock charts"
+      "imageHint": "economic growth"
     },
     {
       "id": "entertainment",
-      "description": "VR metaverse experience",
+      "description": "Pengalaman VR Metaverse",
       "imageUrl": "https://picsum.photos/seed/ent2026/800/600",
-      "imageHint": "virtual reality"
+      "imageHint": "metaverse VR"
     }
   ]
 }
