@@ -1,4 +1,3 @@
-
 # Panduan Solusi "Hijau" GitHub (InfoKilat 2026)
 
 Jika terminal Anda menunjukkan warna merah saat mengetik perintah Git, ikuti urutan perbaikan ini dengan teliti:
@@ -12,7 +11,7 @@ git config --global user.name "Nama Anda"
 *Catatan: Jika langkah ini tetap merah, pastikan Anda mengetik perintahnya dengan benar tanpa tanda kutip yang salah.*
 
 ## Langkah 2: Proses Upload "Anti-Gagal"
-Jalankan perintah ini secara berurutan dari atas ke bawah:
+Jalankan perintah ini secara berurutan dari atas ke bawah di terminal proyek Anda:
 
 ```bash
 # 1. Inisialisasi Git di folder proyek
@@ -41,6 +40,6 @@ git push -u origin main
 1. **Belum Ada Identitas**: Git butuh `user.email` dan `user.name`.
 2. **Belum Ada File yang Ditandai**: Anda harus mengetik `git add .` sebelum bisa melakukan `git commit`.
 3. **Konflik URL**: Perintah `git remote remove origin` saya tambahkan untuk menghapus pengaturan lama yang mungkin salah.
-4. **File Terlalu Besar**: Tanpa file `.gitignore`, Git akan mencoba mengunggah ribuan file sistem (seperti node_modules) yang akan menyebabkan error.
+4. **File Terlalu Besar**: Tanpa file `.gitignore` yang baru saya buat, Git akan mencoba mengunggah ribuan file sistem (seperti node_modules) yang akan menyebabkan error.
 
 Jika muncul jendela login GitHub setelah Langkah 7, silakan pilih **"Sign in with your browser"**. Selesai!
