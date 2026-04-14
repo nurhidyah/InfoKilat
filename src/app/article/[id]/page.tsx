@@ -6,11 +6,12 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { INITIAL_ARTICLES } from "../../lib/data";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Calendar, User, Share2, ArrowLeft, Bookmark, MessageSquare, Sparkles } from "lucide-react";
+import { Calendar, User, ArrowLeft } from "lucide-react";
 import { format } from "date-fns";
 import { id as idLocale } from "date-fns/locale";
 import SummarizeButton from "./SummarizeButton";
+import ArticleActions from "./ArticleActions";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function ArticlePage({ params }: { params: { id: string } }) {
   const article = INITIAL_ARTICLES.find((a) => a.id === params.id);
@@ -39,7 +40,9 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
             {/* Header */}
             <header className="mb-8 space-y-6">
               <div className="flex items-center gap-3">
-                <Badge className="bg-primary hover:bg-primary">{article.category}</Badge>
+                <Link href={`/category/${article.category}`}>
+                  <Badge className="bg-primary hover:bg-primary/90 cursor-pointer">{article.category}</Badge>
+                </Link>
                 <span className="text-xs text-muted-foreground flex items-center gap-1">
                   <Calendar className="h-3 w-3" />
                   {format(publishedDate, "EEEE, d MMMM yyyy", { locale: idLocale })}
@@ -61,17 +64,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <Button variant="ghost" size="icon" className="rounded-full">
-                    <Share2 className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon" className="rounded-full">
-                    <Bookmark className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon" className="rounded-full">
-                    <MessageSquare className="h-4 w-4" />
-                  </Button>
-                </div>
+                <ArticleActions title={article.title} />
               </div>
             </header>
 
@@ -103,37 +96,17 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
             <div className="mt-12 pt-8 border-t">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-sm font-bold text-muted-foreground mr-2">Tags:</span>
-                <Badge variant="secondary" className="cursor-pointer hover:bg-primary hover:text-white transition-colors">#BeritaTerkini</Badge>
+                <Badge variant="secondary" className="cursor-pointer hover:bg-primary hover:text-white transition-colors">#Berita2026</Badge>
                 <Badge variant="secondary" className="cursor-pointer hover:bg-primary hover:text-white transition-colors">#IndonesiaMaju</Badge>
                 <Badge variant="secondary" className="cursor-pointer hover:bg-primary hover:text-white transition-colors">#{article.category}</Badge>
               </div>
             </div>
           </article>
-
-          {/* Related Articles */}
-          <section className="mt-20 max-w-4xl mx-auto">
-            <h2 className="text-2xl font-black font-headline mb-8 flex items-center gap-2">
-              <div className="w-1.5 h-8 bg-accent rounded-full" />
-              BACA JUGA
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {INITIAL_ARTICLES.filter(a => a.id !== article.id).slice(0, 2).map(related => (
-                <Link key={related.id} href={`/article/${related.id}`} className="group flex gap-4 bg-card rounded-xl p-3 border shadow-sm hover:shadow-md transition-all">
-                  <div className="relative w-24 h-24 shrink-0 rounded-lg overflow-hidden">
-                    <Image src={related.imageUrl} alt={related.title} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-black text-primary uppercase tracking-wider mb-1">{related.category}</p>
-                    <h3 className="text-sm font-bold leading-tight line-clamp-2 group-hover:text-primary transition-colors">{related.title}</h3>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
         </div>
       </main>
 
       <Footer />
+      <Toaster />
     </div>
   );
 }

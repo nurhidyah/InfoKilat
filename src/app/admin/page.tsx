@@ -19,15 +19,26 @@ import { Plus, Edit, Trash2, LayoutDashboard, FileText, Settings, BarChart } fro
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { id as idLocale } from "date-fns/locale";
-import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function AdminPage() {
   const [articles, setArticles] = useState<Article[]>(INITIAL_ARTICLES);
+  const { toast } = useToast();
 
   const deleteArticle = (id: string) => {
-    if (confirm("Apakah Anda yakin ingin menghapus berita ini?")) {
-      setArticles(articles.filter(a => a.id !== id));
-    }
+    setArticles(articles.filter(a => a.id !== id));
+    toast({
+      title: "Berita Dihapus",
+      description: "Artikel telah berhasil dihapus dari sistem.",
+    });
+  };
+
+  const handleNewArticle = () => {
+    toast({
+      title: "Segera Hadir",
+      description: "Formulir penulisan berita sedang dipersiapkan.",
+    });
   };
 
   return (
@@ -41,7 +52,7 @@ export default function AdminPage() {
             <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
               <div className="p-6 bg-primary text-white">
                 <h2 className="font-black text-xl font-headline tracking-tight">Admin Console</h2>
-                <p className="text-xs text-white/70">Welcome back, Editor</p>
+                <p className="text-xs text-white/70">Selamat datang, Editor</p>
               </div>
               <nav className="p-2">
                 <Button variant="ghost" className="w-full justify-start gap-3 bg-secondary/50 text-primary font-bold">
@@ -63,8 +74,8 @@ export default function AdminPage() {
           {/* Main Table Area */}
           <div className="lg:col-span-9 space-y-6">
             <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-black font-headline">Manajemen Konten</h1>
-              <Button className="gap-2 bg-accent hover:bg-accent/90">
+              <h1 className="text-2xl font-black font-headline">Manajemen Konten 2026</h1>
+              <Button className="gap-2 bg-accent hover:bg-accent/90" onClick={handleNewArticle}>
                 <Plus className="h-4 w-4" /> Berita Baru
               </Button>
             </div>
@@ -131,6 +142,7 @@ export default function AdminPage() {
       </main>
 
       <Footer />
+      <Toaster />
     </div>
   );
 }
