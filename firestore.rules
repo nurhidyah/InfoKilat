@@ -1,0 +1,131 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * INFO KILAT NEWS PLATFORM SECURITY RULES
+     *
+     * Core Philosophy: 
+     * This ruleset implements a robust Administrative Access Control (DBAC) model combined with 
+     * Structural Segregation. Content is moved between collections (drafts, published, archived) 
+     * to naturally enforce security boundaries without complex logical checks.
+     *
+     * Data Structure:
+     * - /roles_admin/{uid}: Marker documents identifying platform administrators.
+     * - /published_articles, /categories, /authors, /images, /tags: Publicly readable content.
+     * - /admin_drafts, /archived_articles: Private administrative work areas.
+     *
+     * Key Security Decisions:
+     * 1. Authorization Independence: We avoid using get() to check parent document permissions 
+     *    by relying on the existence of the user's UID in the 'roles_admin' collection.
+     * 2. Structural Segregation: Instead of a 'status' field in a single 'articles' collection, 
+     *    we use separate collections for drafts and published news. This simplifies query 
+     *    safety as public users literally cannot query the draft collection.
+     * 3. Prototyping Flexibility: Rules strictly enforce WHO can access data but allow 
+     *    developers flexibility on WHAT data is stored (schema-less writing).
+     */
+
+    // --- Helper Functions ---
+
+    /** Checks if the user is authenticated with Firebase Auth. */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /** Checks if the authenticated user has an entry in the admin roles collection. */
+    function isAdmin() {
+      return isSignedIn() && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
+    }
+
+    /** Combines admin check with document existence for destructive operations. */
+    function isExistingAdmin() {
+      return isAdmin() && resource != null;
+    }
+
+    // --- Collection Rules ---
+
+    /**
+     * @description Administrative roles markers. Presence of a document grants admin privileges.
+     * @path /roles_admin/{adminId}
+     * @allow Authenticated admins can list roles and add new admins.
+     * @deny Non-admins or unauthenticated users cannot view or modify the admin list.
+     * @principle DBAC (Database Access Control) pattern for role management.
+     */
+    match /roles_admin/{adminId} {
+      allow get, list: if isAdmin();
+      allow create: if isAdmin();
+      allow update, delete: if isExistingAdmin();
+    }
+
+    /**
+     * @description Public lookup data for news organization (categories, authors, tags, images).
+     * @path /categories/{id}, /authors/{id}, /tags/{id}, /images/{id}
+     * @allow Anyone (including anonymous) can read; only admins can modify.
+     * @deny Write operations from non-admin users.
+     * @principle Public Read, Admin-Only Write pattern for reference data.
+     */
+    match /categories/{categoryId} {
+      allow get, list: if true;
+      allow create: if isAdmin();
+      allow update, delete: if isExistingAdmin();
+    }
+
+    match /authors/{authorId} {
+      allow get, list: if true;
+      allow create: if isAdmin();
+      allow update, delete: if isExistingAdmin();
+    }
+
+    match /tags/{tagId} {
+      allow get, list: if true;
+      allow create: if isAdmin();
+      allow update, delete: if isExistingAdmin();
+    }
+
+    match /images/{imageId} {
+      allow get, list: if true;
+      allow create: if isAdmin();
+      allow update, delete: if isExistingAdmin();
+    }
+
+    /**
+     * @description Publicly accessible news articles that have reached 'published' status.
+     * @path /published_articles/{articleId}
+     * @allow Global public read access; admin-only writes.
+     * @deny Deletion or modification by non-administrators.
+     * @principle Structural segregation ensures only published content is available here.
+     */
+    match /published_articles/{articleId} {
+      allow get, list: if true;
+      allow create: if isAdmin();
+      allow update, delete: if isExistingAdmin();
+    }
+
+    /**
+     * @description Private work areas for news articles not yet ready for public consumption.
+     * @path /admin_drafts/{articleId}
+     * @allow Read and Write access limited strictly to platform administrators.
+     * @deny Access to any unauthenticated or non-admin user.
+     * @principle Queries as Authorization Primitives (QAPs) via separate collections.
+     */
+    match /admin_drafts/{articleId} {
+      allow get, list: if isAdmin();
+      allow create: if isAdmin();
+      allow update, delete: if isExistingAdmin();
+    }
+
+    /**
+     * @description Secure archive for historical news articles removed from public view.
+     * @path /archived_articles/{articleId}
+     * @allow Read and Write access limited strictly to platform administrators.
+     * @deny Access to public users or anonymous visitors.
+     * @principle Protects archived intellectual property from public access.
+     */
+    match /archived_articles/{articleId} {
+      allow get, list: if isAdmin();
+      allow create: if isAdmin();
+      allow update, delete: if isExistingAdmin();
+    }
+
+  }
+}

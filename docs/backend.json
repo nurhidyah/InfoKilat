@@ -1,0 +1,342 @@
+{
+  "entities": {
+    "Category": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Category",
+      "type": "object",
+      "description": "Represents a classification for news articles, allowing users to browse content by topic.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Category entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The human-readable name of the category (e.g., 'Politics', 'Sports')."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the category's scope."
+        },
+        "slug": {
+          "type": "string",
+          "description": "A URL-friendly, unique identifier for the category, derived from its name, suitable for use in URLs."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "slug"
+      ]
+    },
+    "Author": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Author",
+      "type": "object",
+      "description": "Represents an individual who writes and publishes news articles.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Author entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The full name of the author."
+        },
+        "bio": {
+          "type": "string",
+          "description": "A short biographical description of the author."
+        },
+        "profileImageUrl": {
+          "type": "string",
+          "description": "URL to the author's profile picture.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "bio"
+      ]
+    },
+    "Image": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Image",
+      "type": "object",
+      "description": "Represents an image asset that can be associated with articles or other content.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Image entity."
+        },
+        "url": {
+          "type": "string",
+          "description": "The URL or path to the image file.",
+          "format": "uri"
+        },
+        "altText": {
+          "type": "string",
+          "description": "Alternative text for the image, crucial for accessibility and SEO."
+        },
+        "caption": {
+          "type": "string",
+          "description": "A short caption or description displayed with the image."
+        },
+        "uploadedDate": {
+          "type": "string",
+          "description": "The date and time when the image was uploaded.",
+          "format": "date-time"
+        },
+        "photographerName": {
+          "type": "string",
+          "description": "The name of the photographer or source of the image, if applicable."
+        }
+      },
+      "required": [
+        "id",
+        "url",
+        "altText",
+        "uploadedDate"
+      ]
+    },
+    "Tag": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Tag",
+      "type": "object",
+      "description": "Represents a keyword or label used to categorize articles for easier search and related content discovery.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Tag entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The human-readable name of the tag (e.g., 'Election', 'Innovation')."
+        },
+        "slug": {
+          "type": "string",
+          "description": "A URL-friendly, unique identifier for the tag, derived from its name, suitable for use in URLs."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "slug"
+      ]
+    },
+    "Article": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Article",
+      "type": "object",
+      "description": "Represents a single news article, containing its content, metadata, and references to related entities.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Article entity."
+        },
+        "title": {
+          "type": "string",
+          "description": "The headline or title of the news article."
+        },
+        "content": {
+          "type": "string",
+          "description": "The full body text of the article, typically in Markdown or HTML format."
+        },
+        "publicationDate": {
+          "type": "string",
+          "description": "The date and time when the article was originally published.",
+          "format": "date-time"
+        },
+        "lastModifiedDate": {
+          "type": "string",
+          "description": "The date and time when the article was last updated or modified.",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "description": "The current publication status of the article (e.g., 'draft', 'published', 'archived')."
+        },
+        "summary": {
+          "type": "string",
+          "description": "A concise, AI-generated summary of the article's content, providing a quick overview."
+        },
+        "slug": {
+          "type": "string",
+          "description": "A URL-friendly, unique identifier for the article, derived from its title, suitable for use in URLs."
+        },
+        "categoryId": {
+          "type": "string",
+          "description": "Reference to the Category the article belongs to. (Relationship: Category 1:N Article)"
+        },
+        "authorId": {
+          "type": "string",
+          "description": "Reference to the Author who wrote the article. (Relationship: Author 1:N Article)"
+        },
+        "featuredImageId": {
+          "type": "string",
+          "description": "Reference to the primary Image used as the featured visual for the article. (Relationship: Article 1:1 Image)"
+        },
+        "tagIds": {
+          "type": "array",
+          "description": "References to Tags associated with the article for enhanced search and categorization. (Relationship: Tag N:N Article)",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "content",
+        "publicationDate",
+        "lastModifiedDate",
+        "status",
+        "summary",
+        "slug",
+        "categoryId",
+        "authorId",
+        "featuredImageId"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/roles_admin/{adminId}",
+        "definition": {
+          "entityName": "Author",
+          "schema": {
+            "$ref": "#/backend/entities/Author"
+          },
+          "description": "Collection for administrative roles. Each document ID (`adminId`) corresponds to a user's UID, where the existence of a document grants administrative privileges. The 'Author' schema is employed as a general representation for a person's identity in this context.",
+          "params": [
+            {
+              "name": "adminId",
+              "description": "The UID of the administrator."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/categories/{categoryId}",
+        "definition": {
+          "entityName": "Category",
+          "schema": {
+            "$ref": "#/backend/entities/Category"
+          },
+          "description": "Publicly readable collection of news categories. Admins have write access.",
+          "params": [
+            {
+              "name": "categoryId",
+              "description": "The unique ID of the category."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/authors/{authorId}",
+        "definition": {
+          "entityName": "Author",
+          "schema": {
+            "$ref": "#/backend/entities/Author"
+          },
+          "description": "Publicly readable collection of news authors. Admins have write access.",
+          "params": [
+            {
+              "name": "authorId",
+              "description": "The unique ID of the author."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/images/{imageId}",
+        "definition": {
+          "entityName": "Image",
+          "schema": {
+            "$ref": "#/backend/entities/Image"
+          },
+          "description": "Publicly readable collection of image assets used in articles. Admins have write access.",
+          "params": [
+            {
+              "name": "imageId",
+              "description": "The unique ID of the image."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/tags/{tagId}",
+        "definition": {
+          "entityName": "Tag",
+          "schema": {
+            "$ref": "#/backend/entities/Tag"
+          },
+          "description": "Publicly readable collection of tags for news articles. Admins have write access.",
+          "params": [
+            {
+              "name": "tagId",
+              "description": "The unique ID of the tag."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/published_articles/{articleId}",
+        "definition": {
+          "entityName": "Article",
+          "schema": {
+            "$ref": "#/backend/entities/Article"
+          },
+          "description": "Collection for published news articles, which are publicly readable. Admins have write access for updates/deletions. Documents in this collection always represent a 'published' state.",
+          "params": [
+            {
+              "name": "articleId",
+              "description": "The unique ID of the published article."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/admin_drafts/{articleId}",
+        "definition": {
+          "entityName": "Article",
+          "schema": {
+            "$ref": "#/backend/entities/Article"
+          },
+          "description": "Collection for news articles in 'draft' status, accessible only by administrators. Documents in this collection always represent a 'draft' state.",
+          "params": [
+            {
+              "name": "articleId",
+              "description": "The unique ID of the draft article."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/archived_articles/{articleId}",
+        "definition": {
+          "entityName": "Article",
+          "schema": {
+            "$ref": "#/backend/entities/Article"
+          },
+          "description": "Collection for news articles in 'archived' status, accessible only by administrators. Documents in this collection always represent an 'archived' state.",
+          "params": [
+            {
+              "name": "articleId",
+              "description": "The unique ID of the archived article."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore data structure for InfoKilat prioritizes secure, scalable, and debuggable access patterns by adhering to core design principles, especially Authorization Independence and Structural Segregation.\n\n**Authorization Independence:**\nThis design completely avoids hierarchical authorization dependencies (`get()` calls in security rules). For instance, an article's access permissions do not depend on reading its associated category or author document. All necessary authorization context is either self-contained within the document (e.g., an article's status implicitly determines its collection, and thus its public/admin accessibility) or handled via a dedicated, independent roles collection.\n\nAdmin roles are implemented using the DBAC (Database Access Control) pattern. A dedicated collection, `/roles_admin/{adminId}`, contains marker documents where the `adminId` is the user's UID. The mere existence of a document in this collection grants administrative privileges, allowing rules to check `exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid))` without needing to fetch other user data.\n\n**QAPs (Queries as Authorization Primitives):**\nSecure `list` operations are a cornerstone of this design, achieved primarily through **Structural Segregation**. Instead of mixing documents with different security postures in one collection and relying on rules to filter, content is separated into distinct collections based on its access requirements:\n*   `/published_articles`: All documents in this collection are publicly readable, making `list` operations trivially secure for public users (`allow read: true`).\n*   `/admin_drafts` and `/archived_articles`: These collections are exclusively for administrators. `list` operations for these collections are securely restricted to authenticated administrators (`allow read: if isAdmin()`).\n\nThis segregation ensures that security rules are simple, explicit, and performant. Public users querying `/published_articles` do not need to be aware of or filtered from `draft` or `archived` content, as that content simply does not exist in their accessible path. Similarly, reference data like `/categories`, `/authors`, `/images`, and `/tags` are universally public, simplifying their access rules to `allow read: true`.\n\n**Overall Structure:**\n*   **Public Read, Admin Write Collections:** `/categories`, `/authors`, `/images`, `/tags`, `/published_articles`. These collections hold data that is globally visible for read operations but requires administrative privileges for creation, updates, or deletions.\n*   **Admin-Only Collections:** `/roles_admin`, `/admin_drafts`, `/archived_articles`. These collections are exclusively for administrative functions, ensuring strict control over sensitive content and role management.\n*   **Explicit State Modeling:** Article status is managed structurally (by moving articles between `/admin_drafts`, `/published_articles`, `/archived_articles`) rather than solely relying on a `status` field within a single collection, reinforcing security and clarity.\n\nThis architecture provides a clear, maintainable, and highly secure foundation for the InfoKilat news platform."
+  }
+}
