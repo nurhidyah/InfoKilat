@@ -1,40 +1,42 @@
-# Panduan Menghubungkan InfoKilat ke GitHub
+# Panduan Lengkap Upload InfoKilat ke GitHub
 
-Ikuti langkah-langkah di bawah ini untuk mengunggah proyek Anda ke GitHub dengan aman:
+Ikuti langkah demi langkah di bawah ini untuk mengunggah proyek Anda dengan aman:
 
-## 1. Persiapan di GitHub
-1. Masuk ke akun [GitHub](https://github.com).
-2. Klik tombol **New** (ikon + di pojok kanan atas) untuk membuat repositori baru.
-3. Beri nama repositori (contoh: `infokilat-2026`).
-4. Biarkan pengaturan lainnya (Public/Private sesuai keinginan).
-5. **PENTING**: Jangan centang "Initialize this repository with a README" karena kita sudah punya file di lokal.
+## Langkah 1: Persiapan di Dashboard GitHub
+1. Buka [GitHub](https://github.com) dan masuk ke akun Anda.
+2. Klik tombol **New** untuk membuat repositori baru.
+3. Beri nama: `infokilat-2026`.
+4. Pastikan pilihan **Public** atau **Private** sudah sesuai.
+5. **PENTING**: Jangan centang opsi "Initialize this repository with a README" atau ".gitignore" karena kita sudah memilikinya di lokal.
 6. Klik **Create repository**.
+7. Salin URL HTTPS yang muncul (Contoh: `https://github.com/user/repo.git`).
 
-## 2. Perintah Terminal (Git)
-Buka terminal Anda di direktori proyek ini dan jalankan perintah berikut secara berurutan:
+## Langkah 2: Menjalankan Perintah Git
+Buka terminal/command prompt tepat di folder proyek ini, lalu jalankan perintah ini satu per satu:
 
 ```bash
-# 1. Inisialisasi git di folder proyek
+# Menginisialisasi git di komputer Anda
 git init
 
-# 2. Tambahkan semua file (kecuali yang ada di .gitignore)
+# Menambahkan semua file ke dalam daftar tunggu (staging)
 git add .
 
-# 3. Buat commit pertama
-git commit -m "feat: Rilis awal InfoKilat 2026 dengan fitur AI dan Kategori"
+# Membuat catatan perubahan pertama
+git commit -m "feat: Rilis awal InfoKilat 2026"
 
-# 4. Atur cabang utama ke 'main'
+# Memastikan kita berada di cabang utama 'main'
 git branch -M main
 
-# 5. Hubungkan ke repositori GitHub Anda
-# GANTI URL di bawah ini dengan URL Repositori yang Anda buat tadi!
+# Menghubungkan folder lokal ke server GitHub
+# GANTI URL di bawah ini dengan URL yang Anda salin dari GitHub tadi!
 git remote add origin https://github.com/USERNAME_ANDA/NAMA_REPO_ANDA.git
 
-# 6. Unggah kode ke GitHub
+# Mengirim kode ke GitHub
 git push -u origin main
 ```
 
-## 3. Catatan Keamanan
-- File `.env` yang berisi kunci API Firebase Anda **tidak akan terunggah** karena sudah kita masukkan ke `.gitignore`. Ini sangat penting untuk mencegah penyalahgunaan akun Firebase Anda.
-- Jika Anda ingin melakukan perubahan di masa depan, cukup jalankan:
-  `git add .` -> `git commit -m "pesan perubahan"` -> `git push`
+## Langkah 3: Verifikasi
+Refresh halaman repositori GitHub Anda. Jika berhasil, Anda akan melihat daftar file seperti `src`, `public`, `package.json`, dll.
+
+## Catatan Penting Keamanan:
+File `.env` dan folder `.next` secara otomatis **tidak akan terunggah** karena sudah diatur di dalam file `.gitignore`. Ini penting untuk menjaga kerahasiaan kunci API Firebase Anda.
