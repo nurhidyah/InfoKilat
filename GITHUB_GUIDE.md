@@ -12,13 +12,13 @@ git config --global user.name "Nama Anda"
 Jalankan baris demi baris di terminal Anda:
 
 ```bash
-# 1. Hapus koneksi lama yang salah
+# 1. Hapus koneksi lama yang salah (Mengatasi error 'already exists')
 git remote remove origin 2>/dev/null || true
 
 # 2. Hubungkan kembali dengan URL yang BENAR (nurhidyah)
 git remote add origin https://github.com/nurhidyah/berita-terkini.git
 
-# 3. Pastikan file .gitignore terbaca (agar tidak berat)
+# 3. Tandai semua file (Termasuk .gitignore yang baru ditambahkan)
 git add .
 
 # 4. Simpan perubahan (Jika muncul 'nothing to commit', lanjut ke langkah 5)
@@ -32,4 +32,4 @@ git push -u origin main
 Itu artinya semua file Anda sudah tersimpan di database lokal Git. Anda hanya perlu langsung melakukan **Langkah 5 (git push)** setelah memastikan **Langkah 1 & 2** sudah dijalankan dengan URL yang benar.
 
 ## Mengapa muncul "Repository not found"?
-Karena sebelumnya ada kesalahan ketik `nurhidayah` (pakai 'a'). URL yang benar adalah `nurhidyah`. Perintah `remote remove` dan `remote add` di atas akan memperbaikinya secara otomatis.
+Karena sebelumnya ada kemungkinan kesalahan ketik pada URL. URL yang benar adalah `nurhidyah`. Perintah `remote remove` dan `remote add` di atas akan memperbaikinya secara otomatis.
