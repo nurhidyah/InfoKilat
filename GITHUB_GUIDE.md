@@ -1,41 +1,43 @@
-# Panduan Lengkap Upload InfoKilat ke GitHub (Bebas Error)
+# Panduan Solusi Error "Merah" GitHub (InfoKilat 2026)
 
-Ikuti langkah-langkah di bawah ini secara berurutan. Jika ada error sebelumnya, panduan ini akan memperbaikinya secara otomatis.
+Jika `git commit` Anda merah, ikuti urutan ini dengan teliti. Jangan lewatkan langkah 1 & 2.
 
-## Langkah 1: Persiapan di Dashboard GitHub
-1. Pastikan Anda sudah membuat repositori bernama `berita-terkini` di akun GitHub `nurhidyah`.
-2. URL Repositori Anda: `https://github.com/nurhidyah/berita-terkini.git`
+## Langkah 1: Identitas (PENTING)
+Git menolak commit jika tidak tahu siapa Anda. Jalankan ini di terminal (ganti dengan info Anda):
+```bash
+git config --global user.email "email-anda@gmail.com"
+git config --global user.name "Nama Anda"
+```
 
-## Langkah 2: Menjalankan Perintah Git di Terminal
-Buka terminal/command prompt tepat di folder proyek ini, lalu jalankan perintah ini satu per satu:
+## Langkah 2: Proses Upload Anti-Gagal
+Jalankan perintah ini satu per satu:
 
 ```bash
-# 1. Menginisialisasi git (jika belum)
+# 1. Inisialisasi ulang
 git init
 
-# 2. Menghapus remote lama jika ada (untuk menghindari error 'origin already exists')
-git remote remove origin 2>/dev/null || true
-
-# 3. Menghubungkan folder lokal ke GitHub Anda
-git remote add origin https://github.com/nurhidyah/berita-terkini.git
-
-# 4. Menambahkan semua file ke dalam daftar tunggu
+# 2. Tambahkan semua file (PENTING: Jangan lupa tanda titik di akhir)
 git add .
 
-# 5. Membuat catatan perubahan pertama
-git commit -m "feat: Rilis awal InfoKilat 2026 - Berhasil"
+# 3. Commit (Sekarang seharusnya sudah Hijau/Berhasil)
+git commit -m "feat: Rilis InfoKilat 2026 - Versi Stabil"
 
-# 6. Memastikan kita berada di cabang utama 'main'
+# 4. Hapus remote lama jika ada konflik
+git remote remove origin 2>/dev/null || true
+
+# 5. Hubungkan ke repositori Anda
+git remote add origin https://github.com/nurhidyah/berita-terkini.git
+
+# 6. Pastikan di branch main
 git branch -M main
 
-# 7. Mengirim kode ke GitHub (Anda mungkin akan diminta login)
+# 7. Push/Upload
 git push -u origin main
 ```
 
-## Tips Jika Terjadi Error:
-- **Error Permission Denied**: Pastikan Anda sudah login ke GitHub Desktop atau sudah mengatur SSH Key/Personal Access Token.
-- **Error Tip of Branch is Behind**: Jika repositori di GitHub tidak kosong, gunakan `git push -u origin main --force` (Hanya lakukan ini jika Anda yakin).
-- **Semua Hijau**: Jika terminal tidak memunculkan teks merah dan kembali ke baris perintah baru, berarti proses berhasil!
+## Kenapa tadi Merah?
+1. **Belum `git add .`**: Git tidak tahu file mana yang mau disimpan.
+2. **Belum Identitas**: Git butuh `user.email` dan `user.name` untuk mencatat siapa yang mengubah kode.
+3. **Folder Terkunci**: Pastikan terminal Anda punya izin akses (Run as Administrator jika di Windows).
 
-## Catatan Keamanan:
-File `.env` dan folder `.next` secara otomatis **tidak akan terunggah** karena sudah diatur di dalam file `.gitignore`. Ini menjaga kunci API Firebase Anda tetap aman.
+Jika sudah sampai Langkah 7 dan muncul jendela Login GitHub, silakan Login. Setelah itu, cek halaman GitHub Anda, semua file akan muncul di sana!
