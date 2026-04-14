@@ -17,7 +17,7 @@
 .DS_Store
 *.pem
 
-# env files (Sangat Penting: Jangan upload kunci API!)
+# env files
 .env
 .env.local
 .env.development.local
@@ -30,3 +30,11 @@
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# firebase
+.firebase/
+database-debug.log
+firestore-debug.log
+pubsub-debug.log
+ui-debug.log
+firebase-debug.log
